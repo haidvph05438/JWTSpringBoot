@@ -45,6 +45,8 @@ public class JwtTokenProvider {
 	}
 
 	/**
+	 * create token with param is username and role
+	 * 
 	 * @param username
 	 * @param role
 	 * @return
@@ -70,6 +72,8 @@ public class JwtTokenProvider {
 	}
 
 	/**
+	 * get username from token
+	 * 
 	 * @param token
 	 * @return
 	 */
@@ -90,12 +94,14 @@ public class JwtTokenProvider {
 	}
 
 	/**
+	 * validate token
+	 * 
 	 * @param token
 	 * @return
 	 * @throws JwtException
 	 * @throws IllegalArgumentException
 	 */
-	public boolean validateToken(String token) throws JwtException, IllegalArgumentException{
+	public boolean validateToken(String token) throws JwtException, IllegalArgumentException {
 		Jwts.parser().setSigningKey(secretKey).parseClaimsJws(token);
 		return true;
 	}

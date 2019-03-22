@@ -3,6 +3,7 @@ package com.apps.config;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.builders.WebSecurity;
@@ -25,8 +26,12 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 	@Autowired
 	JwtTokenProvider jwtTokenProvider;
 
-	/* (non-Javadoc)
-	 * @see org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter#configure(org.springframework.security.config.annotation.web.builders.WebSecurity)
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.springframework.security.config.annotation.web.configuration.
+	 * WebSecurityConfigurerAdapter#configure(org.springframework.security.config.
+	 * annotation.web.builders.WebSecurity)
 	 */
 	@Override
 	public void configure(WebSecurity web) throws Exception {
@@ -34,8 +39,12 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 				.antMatchers("/configuration/**").antMatchers("/webjars/**").antMatchers("/public");
 	}
 
-	/* (non-Javadoc)
-	 * @see org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter#configure(org.springframework.security.config.annotation.web.builders.HttpSecurity)
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.springframework.security.config.annotation.web.configuration.
+	 * WebSecurityConfigurerAdapter#configure(org.springframework.security.config.
+	 * annotation.web.builders.HttpSecurity)
 	 */
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {
@@ -43,8 +52,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
 		http.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
 
-		http.authorizeRequests().antMatchers("/users/signin").permitAll().antMatchers("/users/signup").permitAll()
-				.anyRequest().authenticated();
+		http.authorizeRequests().antMatchers("signin").permitAll().antMatchers("signup").permitAll().anyRequest()
+				.authenticated();
 
 		http.exceptionHandling().accessDeniedPage("/login");
 
@@ -57,5 +66,10 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 	@Bean
 	public PasswordEncoder passwordEncoder() {
 		return new BCryptPasswordEncoder(12);
+	}
+
+	@Bean
+	public AuthenticationManager customAuthenticationManager() throws Exception {
+		return authenticationManager();
 	}
 }
